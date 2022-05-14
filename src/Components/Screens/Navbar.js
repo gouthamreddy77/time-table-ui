@@ -40,13 +40,18 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item" data-bs-dismiss="offcanvas" aria-label="Close">
+                                    <Link to="/home/lecturers" className="nav-link text-truncate">
+                                        <i className="fs-5 bi-house"></i><span className="ms-1 d-none d-sm-inline">Lecturers</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item" data-bs-dismiss="offcanvas" aria-label="Close">
                                     <Link to="/home/mapping" className="nav-link text-truncate">
                                         <i className="fs-5 bi-house"></i><span className="ms-1 d-none d-sm-inline">Mapping</span>
                                     </Link>
                                 </li>
                                 <li className="nav-item" data-bs-dismiss="offcanvas" aria-label="Close">
-                                    <Link to="/home/generate-timetable" className="nav-link text-truncate">
-                                        <i className="fs-5 bi-house"></i><span className="ms-1 d-none d-sm-inline">Generate TimeTable</span>
+                                    <Link to="/home/display-timetable" className="nav-link text-truncate">
+                                        <i className="fs-5 bi-house"></i><span className="ms-1 d-none d-sm-inline">View TimeTable</span>
                                     </Link>
                                 </li>
                             </ul>
