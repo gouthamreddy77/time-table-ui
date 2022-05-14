@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { year, department, section, rooms } from "../Data";
+import { year, department, section, rooms } from "../../Data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";

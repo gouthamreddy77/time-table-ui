@@ -6,10 +6,10 @@ import Login from './Screens/Login'
 import HomeScreen from './Screens/HomeScreen'
 import Dashboard from './Screens/Dashboard'
 
-import Batch from './Features/Batch'
-import Course from './Features/Course'
-import Mapping from './Features/Mapping'
-import Lecturers from './Features/Lecturers'
+import Batch from './Features/Input-Pages/Batch'
+import Course from './Features/Input-Pages/Course'
+import Lecturers from './Features/Input-Pages/Lecturers'
+import Mapping from './Features/Mapping/Mapping'
 import ViewTimeTable from './Features/ViewTimeTable'
 
 const Router = () => {
