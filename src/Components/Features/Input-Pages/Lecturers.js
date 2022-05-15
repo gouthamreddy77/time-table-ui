@@ -12,79 +12,76 @@ import {
 const Lecturers = () => {
   const [prof_id, setProfId] = useState("");
   const [prof_name, setProfName] = useState("");
-  const [prof_dept, setProfDept] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [professors, setProfessors] = useState([
-    { prof_id: "1", prof_name: "Professor-1", prof_dept: "Department-1" },
-    { prof_id: "2", prof_name: "Professor-2", prof_dept: "Department-2" },
-    { prof_id: "3", prof_name: "Professor-3", prof_dept: "Department-3" },
-    { prof_id: "3", prof_name: "Professor-3", prof_dept: "Department-3" },
-    { prof_id: "3", prof_name: "Professor-3", prof_dept: "Department-3" },
+    { professor_id: "1", professor_name: "Professor-1"},
+    { professor_id: "2", professor_name: "Professor-2"},
+    { professor_id: "3", professor_name: "Professor-3"},
+    { professor_id: "3", professor_name: "Professor-3"},
+    { professor_id: "3", professor_name: "Professor-3"},
   ]);
   const addProf = () => {
-    // if (prof_id == "" || prof_name == "" || prof_dept == "") {
-    //   alert("Enter detailes Correctly");
-    //   return;
-    // }
-    // fetch("/addProf", {
-    //   method: "post",
-    //   headers: {
-    //     "Content-Type": "application/Json",
-    //   },
-    //   body: JSON.stringify({
-    //     prof_id,
-    //     prof_name,
-    //     prof_dept,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     if (refreshKey == 0) setRefreshKey(1);
-    //     else setRefreshKey(0);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    if (prof_id == "" || prof_name == "") {
+      alert("Enter details ");
+      return;
+    }
+    fetch("/add_faculty", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/Json",
+      },
+      body: JSON.stringify({
+        professor_id:prof_id,
+        professor_name:prof_name,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (refreshKey == 0) setRefreshKey(1);
+        else setRefreshKey(0);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const deleteProf = (id) => {
-    // console.log(id);
-    // fetch("/deleteProf", {
-    //   method: "post",
-    //   headers: {
-    //     "Content-Type": "application/Json",
-    //   },
-    //   body: JSON.stringify({
-    //     prof_id: id,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     if (refreshKey == 0) setRefreshKey(1);
-    //     else setRefreshKey(0);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    console.log(id);
+    fetch("/delete_faculty", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/Json",
+      },
+      body: JSON.stringify({
+        professor_id: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (refreshKey == 0) setRefreshKey(1);
+        else setRefreshKey(0);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
-    // fetch("/getProf", {
-    //   method: "get",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     setProfessors(res.data);
-    //   })
-    //   .catch((err) => {
-    //     // notify("Something went wrong !!", "error");
-    //     alert("some thing went wrong");
-    //   });
+    fetch("/view_faculty", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.data);
+        setProfessors(res.data);
+      })
+      .catch((err) => {
+        console.log("error in getting all lecturers");
+      });
   }, [refreshKey]);
 
   return (
@@ -105,13 +102,6 @@ const Lecturers = () => {
             type="text"
             className="form-control"
             placeholder="Enter Professor Name"
-          />
-          <input
-            value={prof_dept}
-            onChange={(e) => setProfDept(e.target.value)}
-            type="text"
-            className="form-control"
-            placeholder="Enter Department"
           />
           <button
             onClick={() => {
@@ -135,7 +125,6 @@ const Lecturers = () => {
             <li className="list-group-item">Professor Id</li>
 
             <li className="list-group-item">Professor Name</li>
-            <li className="list-group-item">Professor Department</li>
             <li className="list-group-item">Delete Professor</li>
           </ul>
         </div>
@@ -154,12 +143,10 @@ const Lecturers = () => {
                 className=" view list-group list-group-horizontal"
                 style={{ marginLeft: "auto", marginRight: "auto" }}
               >
-                <li className="list-group-item">{item.prof_id}</li>
-
-                <li className="list-group-item">{item.prof_name}</li>
-                <li className="list-group-item">{item.prof_dept}</li>
+                <li className="list-group-item">{item.professor_id}</li>
+                <li className="list-group-item">{item.professor_name}</li>
                 <li className="list-group-item">
-                  <button onClick={() => {}}>delete</button>
+                  <button onClick={() => {deleteProf(item.professor_id)}}>delete</button>
                 </li>
               </ul>
             );

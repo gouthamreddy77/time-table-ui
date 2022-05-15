@@ -1,82 +1,123 @@
 import React, { useEffect, useState } from "react";
-import { year, department, section, rooms } from "../../Data";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { elective_types } from "../../Data";
 
 const ElectiveMapping = (props) => {
   const [course, setCourse] = useState("");
   const [professor, setProfessor] = useState("");
+  const [electiveType,setElectiveType]=useState("")
 
-  const [courseList, setCoursesList] = useState(["HDH", "jfjf"]);
-  const [professorList, setProfessorList] = useState(["HDH", "jfjf"]);
-  //   useEffect(() => {
-  //     fetch("/getCourses", {
-  //       method: "GET",
-  //     })
-  //       .then((res) => res.json)
-  //       .then((res) => setCoursesList(res.data));
-  //     fetch("/getProfessors", {
-  //       method: "GET",
-  //     })
-  //       .then((res) => res.json)
-  //       .then((res) => setProfessorList(res.data));
-  //   }, []);
+  const [courseList, setCoursesList] = useState([]);
+  const [professorList, setProfessorList] = useState([]);
+  const [electives, setElectives] = useState([]);
+  const [refreshKey,setRefreshKey] = useState(0)
 
-  const [electives, setElectives] = useState([
-    {
-      course: 1,
-      professor: "A!)!",
-    },
-    {
-      course: 1,
-      professor: "A!)!",
-    },
-    {
-      course: 1,
-      professor: "A!)!",
-    },
-    {
-      course: 1,
-      professor: "A!)!",
-    },
-  ]);
+  useEffect(() => {
+    fetch("/view_elective_courses", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        // console.log(res.data);
+        setCoursesList(res.data);
+      })
+      .catch((err) => {
+        console.log("error while recieving courses");
+      });
+      fetch("/view_faculty", {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          // console.log(res.data);
+          setProfessorList(res.data);
+        })
+        .catch((err) => {
+          console.log("error in getting all lecturers");
+        });
+      fetch('/view_elective_mapping')
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.data);
+        setElectives(res.data);
+      })
+      .catch((err) => {
+        console.log("error while recieving lecture mapping");
+      });
+  }, [refreshKey]);
 
   const submitHandler = (e) => {
     console.log(course, professor);
     e.preventDefault();
-    // fetch("/add", {
-    //   method: "GET",
-    //   body: JSON.stringify({
-    //
-    //     course,
-    //     professor,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     alert(res);
-    //   });
+    fetch("/add_mapping", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/Json",
+      },
+      body: JSON.stringify({
+        course_name :course,
+        professor_name:professor,
+        elective_type:electiveType
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setCourse("")
+        setElectiveType("")
+        setProfessor("")
+        if (refreshKey == 0) setRefreshKey(1);
+        else setRefreshKey(0);
+      });
   };
 
-  const deleteElectiveMapping = (course, professor) => {
-    // fetch("/deleteLabMapping", {
-    //   method: "post",
-    //   headers: {
-    //     "Content-Type": "application/Json",
-    //   },
-    //   body: JSON.stringify({
-    //   course,professor
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     if (refreshKey == 0) setRefreshKey(1);
-    //     else setRefreshKey(0);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+  const deleteElectiveMapping = (item) => {
+    fetch("/delete_elective_mapping", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/Json",
+      },
+      body: JSON.stringify({
+        course_name:getCourseName(item.course_id),
+        professor_name:getProfessorName(item.professor_id)
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (refreshKey == 0) setRefreshKey(1);
+        else setRefreshKey(0);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  const getCourseName = (id) =>{
+    let name = ''
+    courseList.map(item => {
+      if(item.course_id === id){
+        name =  item.course_name
+        return
+      }
+    })
+    return name
+  }
+
+  const getProfessorName = (id) =>{
+    let name = ''
+    professorList.map(item => {
+      if(item.professor_id === id.toString()){
+        name =  item.professor_name
+        return
+      }
+    })
+    return name
+  }
+
   return (
     <div className="map mt-5">
       <form>
@@ -88,6 +129,17 @@ const ElectiveMapping = (props) => {
           >
             <option value={0}>Select Course</option>
             {courseList.map((item) => {
+              return <option value={item.course_name}>{item.course_name}</option>;
+            })}
+          </select>
+          <select
+            className="form-select-md select-style"
+            value={electiveType}
+            onChange={(e) => setElectiveType(e.target.value)}
+          >
+            <option value={0}>Select Course Type</option>
+            {elective_types.map((item) => {
+              console.log(item)
               return <option value={item}>{item}</option>;
             })}
           </select>
@@ -98,7 +150,7 @@ const ElectiveMapping = (props) => {
           >
             <option value={0}>Select Professor</option>
             {professorList.map((item) => {
-              return <option value={item}>{item}</option>;
+              return <option value={item.professor_name}>{item.professor_name}</option>;
             })}
           </select>
           <button
@@ -124,6 +176,7 @@ const ElectiveMapping = (props) => {
             style={{ marginLeft: "auto", marginRight: "auto" }}
           >
             <li className="list-group-item">Course</li>
+            <li className="list-group-item">Course Type</li>
             <li className="list-group-item">Professor</li>
             <li className="list-group-item">Delete Mapping</li>
           </ul>
@@ -143,11 +196,12 @@ const ElectiveMapping = (props) => {
                 className=" view list-group list-group-horizontal"
                 style={{ marginLeft: "auto", marginRight: "auto" }}
               >
-                <li className="list-group-item">{item.course}</li>
-                <li className="list-group-item">{item.professor}</li>
+                <li className="list-group-item">{getCourseName(item.course_id)}</li>
+                <li className="list-group-item">{item.elective_type}</li>
+                <li className="list-group-item">{getProfessorName(item.professor_id)}</li>
 
                 <li className="list-group-item">
-                  <button onClick={() => {}}>delete</button>
+                  <button onClick={() => {deleteElectiveMapping(item)}}>delete</button>
                 </li>
               </ul>
             );

@@ -54,6 +54,11 @@ const Navbar = () => {
                                         <i className="fs-5 bi-house"></i><span className="ms-1 d-none d-sm-inline">View TimeTable</span>
                                     </Link>
                                 </li>
+                                <li className="nav-item" data-bs-dismiss="offcanvas" aria-label="Close">
+                                    <Link to="/home/generate-timetable" className="nav-link text-truncate">
+                                        <i className="fs-5 bi-house"></i><span className="ms-1 d-none d-sm-inline">Generate TimeTable</span>
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                     </div>

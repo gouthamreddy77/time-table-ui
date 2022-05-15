@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { year, department, section, rooms } from "../../Data";
+import React, { useState,useEffect } from "react";
+import { year, section } from "../../Data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -11,93 +11,86 @@ const Batch = (props) => {
   const [batch_room, setBatchRoom] = useState("");
 
   const [refreshKey, setRefreshKey] = useState(0);
-  const [batches, setBatches] = useState([
-    {
-      batch_year: 1,
-      batch_dept: "CSE",
-      batch_section: 1,
-      batch_room: "A!)!",
-    },
-    {
-      batch_year: 1,
-      batch_dept: "CSE",
-      batch_section: 1,
-      batch_room: "A!)!",
-    },
-    {
-      batch_year: 1,
-      batch_dept: "CSE",
-      batch_section: 1,
-      batch_room: "A!)!",
-    },
-    {
-      batch_year: 1,
-      batch_dept: "CSE",
-      batch_section: 1,
-      batch_room: "A!)!",
-    },
-  ]);
+  const [batches, setBatches] = useState([]);
+  const [Department,setDepartments] = useState([])
+  const [Rooms,setRooms] = useState([])
 
-  //   deleting the batch
-
-  const deleteBatch = (year, section) => {
-    //     console.log(id);
-    //     fetch("/deleteCourse", {
-    //       method: "post",
-    //       headers: {
-    //         "Content-Type": "application/Json",
-    //       },
-    //       body: JSON.stringify({
-    //         batch_year: year,
-    //         batch_section: section,
-    //       }),
-    //     })
-    //       .then((res) => res.json())
-    //       .then((res) => {
-    //         if (refreshKey == 0) setRefreshKey(1);
-    //         else setRefreshKey(0);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
+  const deleteBatch = (year, section,dept) => {
+        fetch("/delete_batch", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/Json",
+          },
+          body: JSON.stringify({
+            year:year,
+            dept_name:dept,
+            section: section,
+          }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (refreshKey == 0) setRefreshKey(1);
+            else setRefreshKey(0);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
   };
 
   //   getting the batches list
 
-  //   useEffect(() => {
-  //     fetch("/getBatches", {
-  //       method: "get",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((res) => {
-  //         console.log(res.data);
-  //         setBatches(res.data);
-  //       })
-  //       .catch((err) => {
-  //         // notify("Something went wrong !!", "error");
-  //         alert("some thing went wrong");
-  //       });
-  //   }, [refreshKey]);
+    useEffect( () => {
+      fetch("/view_batch")
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.data);
+          setBatches(res.data);
+        })
+        .catch((err) => {
+          console.log("error in retreiving batches");
+        });
+
+        fetch("/view_departments")
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.data);
+          setDepartments(res.data);
+        })
+        .catch((err) => {
+          console.log("error in retreiving batches");
+        });
+
+        fetch("/view_rooms")
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.data);
+          setRooms(res.data);
+        })
+        .catch((err) => {
+          console.log("error in retreiving batches");
+        });
+    }, [refreshKey]);
 
   const submitHandler = (e) => {
     console.log(batch_year, batch_dept, batch_section, batch_room);
     e.preventDefault();
-    // fetch("/addBatch", {
-    //   method: "GET",
-    //   body: JSON.stringify({
-    //     batch_year,
-    //     batch_dept,
-    //     batch_section,
-    //     batch_room,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     alert(res);
-    //   });
+    fetch("/add_batch", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/Json",
+      },
+      body: JSON.stringify({
+        year:batch_year,
+        dept_name:batch_dept,
+        section:batch_section,
+        room_no:batch_room,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (refreshKey == 0) setRefreshKey(1);
+        else setRefreshKey(0);
+      })
   };
   return (
     <div>
@@ -120,8 +113,8 @@ const Batch = (props) => {
             onChange={(e) => setBatchDept(e.target.value)}
           >
             <option value={0}>Select Department</option>
-            {department.map((item) => {
-              return <option value={item}>{item}</option>;
+            {Department.map((item) => {
+              return <option value={item.dept_name}>{item.dept_name}</option>;
             })}
           </select>
           <select
@@ -140,8 +133,8 @@ const Batch = (props) => {
             onChange={(e) => setBatchRoom(e.target.value)}
           >
             <option value={0}>Select a Room</option>
-            {rooms.map((item) => {
-              return <option value={item}>{item}</option>;
+            {Rooms.map((item) => {
+              return <option value={item.room_no}>{item.room_no}</option>;
             })}
           </select>
           <button
@@ -184,12 +177,12 @@ const Batch = (props) => {
                 className=" view list-group list-group-horizontal"
                 style={{ marginLeft: "auto", marginRight: "auto" }}
               >
-                <li className="list-group-item">{item.batch_year}</li>
-                <li className="list-group-item">{item.batch_dept}</li>
-                <li className="list-group-item">{item.batch_section}</li>
-                <li className="list-group-item">{item.batch_room}</li>
+                <li className="list-group-item">{item.year}</li>
+                <li className="list-group-item">{item.dept_name}</li>
+                <li className="list-group-item">{item.section}</li>
+                <li className="list-group-item">{item.room_no}</li>
                 <li className="list-group-item">
-                  <button onClick={() => {}}>delete</button>
+                  <button onClick={() => {deleteBatch(item.year,item.section,item.dept_name)}}>delete</button>
                 </li>
               </ul>
             );

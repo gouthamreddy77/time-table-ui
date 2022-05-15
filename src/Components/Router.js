@@ -11,6 +11,7 @@ import Course from './Features/Input-Pages/Course'
 import Lecturers from './Features/Input-Pages/Lecturers'
 import Mapping from './Features/Mapping/Mapping'
 import ViewTimeTable from './Features/ViewTimeTable'
+import GenerateTimeTable from './Features/GenerateTimeTable'
 
 const Router = () => {
   return (
@@ -25,6 +26,7 @@ const Router = () => {
         <Route exact path='lecturers' element={<Lecturers/>}/>
         <Route path='mapping' element={<Mapping />} />
         <Route path='display-timetable' element={<ViewTimeTable />} />
+        <Route path='generate-timetable' element={<GenerateTimeTable/>}/>
       </Route>
     </Routes>
   )
