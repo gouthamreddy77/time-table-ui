@@ -55,25 +55,35 @@ const ViewTimeTable = () => {
                                 selectedBranch === undefined
                                     ?
                                     <>
-                                        <div className='d-flex  justify-content-center align-items-center fs-2'>
+                                        <div className='d-flex  justify-content-center align-items-center fs-3 mt-5 pt-5'>
                                             Please Select any branch
                                         </div>
                                     </>
                                     :
-                                    <>
-                                        <div className='row border text-center' style={{ "position": "relative", "minHeight": "3rem", "backgroundColor": "#fab133" }}>
-                                            <div className='col border'>Day</div>
-                                            <div className='col border'>Slot 1</div>
-                                            <div className='col border'>Slot 2</div>
-                                            <div className='col border'>Slot 3</div>
-                                            <div className='col border'>Slot 4</div>
-                                            <div className='col border'>Slot 5</div>
-                                            <div className='col border'>Slot 6</div>
-                                        </div>
-                                        {
-                                            <Batches section={"{"+selectedBranch?.year + " " + selectedBranch?.dept_name + " " + selectedBranch?.section+"}"} timeTable={state}/>
-                                        }
+                                    (
+                                        state === null ?
+                                        <>
+                                            <div className='d-flex  justify-content-center align-items-center fs-3 mt-5 pt-5'>
+                                                Please Generate Time Table Before Selecting Branch
+                                            </div>
+                                        </>
+                                        :
+                                        <>
+                                            {console.log(state)}
+                                            <div className='row border text-center' style={{ "position": "relative", "minHeight": "3rem", "backgroundColor": "#fab133" }}>
+                                                <div className='col border'>Day</div>
+                                                <div className='col border'>Slot 1</div>
+                                                <div className='col border'>Slot 2</div>
+                                                <div className='col border'>Slot 3</div>
+                                                <div className='col border'>Slot 4</div>
+                                                <div className='col border'>Slot 5</div>
+                                                <div className='col border'>Slot 6</div>
+                                            </div>
+                                            {
+                                                <Batches section={"{"+selectedBranch?.year + " " + selectedBranch?.dept_name + " " + selectedBranch?.section+"}"} timeTable={state}/>
+                                            }
                                     </>
+                                    )
 
                             }
                         </div>
