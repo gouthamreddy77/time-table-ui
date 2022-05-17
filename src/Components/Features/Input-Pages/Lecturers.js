@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import deleteIcon from "../../../delete-logo.png"
+import addIcon from "../../../add-logo.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -38,6 +40,8 @@ const Lecturers = () => {
     })
       .then((res) => res.json())
       .then((res) => {
+        setProfId("")
+        setProfName("")
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       })
@@ -88,7 +92,7 @@ const Lecturers = () => {
     <div>
       <h1 className="appTitle text-center">Add Professors</h1>
       <form>
-        <div className="batches">
+        <div className="lecturer">
           <input
             value={prof_id}
             onChange={(e) => setProfId(e.target.value)}
@@ -103,23 +107,15 @@ const Lecturers = () => {
             className="form-control"
             placeholder="Enter Professor Name"
           />
-          <button
-            onClick={() => {
-              addProf();
-            }}
-            className="btn btn-md btn-info"
-          >
-            Add
-          </button>
+          <img src={addIcon} onClick={() => { addProf(); }} className="add-icon"/>
         </div>
       </form>
       <div className="data-list">
         <div
           className="top-header"
-          style={{ height: "auto", overflowY: "scroll", overflowX: "hidden" }}
         >
           <ul
-            className=" view list-group list-group-horizontal"
+            className=" view list-group list-group-horizontal text-center"
             style={{ marginLeft: "auto", marginRight: "auto" }}
           >
             <li className="list-group-item">Professor Id</li>
@@ -140,13 +136,13 @@ const Lecturers = () => {
           {professors.map((item) => {
             return (
               <ul
-                className=" view list-group list-group-horizontal"
+                className=" view list-group list-group-horizontal text-center"
                 style={{ marginLeft: "auto", marginRight: "auto" }}
               >
                 <li className="list-group-item">{item.professor_id}</li>
                 <li className="list-group-item">{item.professor_name}</li>
                 <li className="list-group-item">
-                  <button onClick={() => {deleteProf(item.professor_id)}}>delete</button>
+                  <img className="delete-icon" src={deleteIcon} onClick={() => {deleteProf(item.professor_id)}}/>
                 </li>
               </ul>
             );

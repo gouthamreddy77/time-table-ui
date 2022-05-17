@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import deleteIcon from "../../../delete-logo.png"
+import addIcon from "../../../add-logo.png"
 
 const LabMapping = (props) => {
   const [course, setCourse] = useState("");
@@ -159,7 +161,7 @@ const LabMapping = (props) => {
             value={course}
             onChange={(e) => setCourse(e.target.value)}
           >
-            <option value={0}>Select Course</option>
+            <option value={0}>Select Lab</option>
             {courseList.map((item) => {
               return <option value={item.course_name}>{item.course_name}</option>;
             })}
@@ -179,27 +181,20 @@ const LabMapping = (props) => {
             value={pairable}
             onChange={(e) => setPairable(e.target.value)}
           >
-            <option value={""}>Do you want to pair</option>
+            <option value={""}>Is Pairable</option>
 
             <option value={1}>Yes</option>
             <option value={0}>No</option>
           </select>
-          <button
-            onClick={(e) => submitHandler(e)}
-            style={{ width: "80px", height: "40px", padding: "5px" }}
-            className="add-button btn  btn-success"
-          >
-            Add
-          </button>
+          <img src={addIcon} onClick={(e) => submitHandler(e)} className="add-icon"/>
         </div>
       </form>
       <div className="data-list">
         <div
           className="top-header"
-          style={{ height: "auto", overflowY: "scroll", overflowX: "hidden" }}
         >
           <ul
-            className=" view list-group list-group-horizontal"
+            className=" view list-group list-group-horizontal text-center"
             style={{ marginLeft: "auto", marginRight: "auto" }}
           >
             <li className="list-group-item">Batch</li>
@@ -221,7 +216,7 @@ const LabMapping = (props) => {
           {labs.map((item) => {
             return (
               <ul
-                className=" view list-group list-group-horizontal"
+                className=" view list-group list-group-horizontal text-center"
                 style={{ marginLeft: "auto", marginRight: "auto" }}
               >
                 <li className="list-group-item">{getBatchName(item.batch_id)}</li>
@@ -229,7 +224,7 @@ const LabMapping = (props) => {
                 <li className="list-group-item">{getProfessorName(item.professor_id)}</li>
                 <li className="list-group-item">{item.can_be_paired === 1 ? "Yes" : "No"}</li>
                 <li className="list-group-item">
-                  <button onClick={() => {deleteLabMapping(item)}}>delete</button>
+                  <img className="delete-icon" src={deleteIcon} onClick={() => {deleteLabMapping(item)}}/>
                 </li>
               </ul>
             );

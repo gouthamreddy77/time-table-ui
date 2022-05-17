@@ -1,8 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { year, section } from "../../Data";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import deleteIcon from "../../../delete-logo.png"
+import addIcon from "../../../add-logo.png"
 
 const Batch = (props) => {
   const [batch_year, setBatchYear] = useState("");
@@ -88,13 +87,17 @@ const Batch = (props) => {
     })
       .then((res) => res.json())
       .then((res) => {
+          setBatchYear("")
+          setBatchDept("")
+          setBatchSection("")
+          setBatchRoom("")
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       })
   };
   return (
     <div>
-      <h1 className="appTitle text-center">Add Batches</h1>
+      <h3 className="appTitle text-center">Add Batches</h3>
       <form>
         <div className="batches">
           <select
@@ -102,7 +105,7 @@ const Batch = (props) => {
             value={batch_year}
             onChange={(e) => setBatchYear(e.target.value)}
           >
-            <option value={0}>Select a year</option>
+            <option value={0}>Select Year</option>
             {year.map((item) => {
               return <option value={item}>{item}</option>;
             })}
@@ -137,23 +140,15 @@ const Batch = (props) => {
               return <option value={item.room_no}>{item.room_no}</option>;
             })}
           </select>
-          <button
-            onClick={(e) => submitHandler(e)}
-            style={{ width: "80px", height: "40px", padding: "5px" }}
-            className="add-button btn  btn-success"
-          >
-            Add
-          </button>
+          <img className="add-icon" src={addIcon} onClick={(e) => submitHandler(e)}/>
         </div>
       </form>
       <div className="data-list">
         <div
-          className="top-header"
-          style={{ height: "auto", overflowY: "scroll", overflowX: "hidden" }}
-        >
+          className="top-header">
           <ul
-            className=" view list-group list-group-horizontal"
-            style={{ marginLeft: "auto", marginRight: "auto" }}
+            className=" view list-group list-group-horizontal text-center"
+            style={{ marginLeft: "auto", marginRight: "auto"}}
           >
             <li className="list-group-item">Year</li>
             <li className="list-group-item">Department</li>
@@ -165,24 +160,23 @@ const Batch = (props) => {
         <div
           className="bottom"
           style={{
-            height: "220px",
+            height: "190px",
             overflowY: "scroll",
             overflowX: "hidden",
-            marginTop: "0px",
           }}
         >
           {batches.map((item) => {
             return (
               <ul
-                className=" view list-group list-group-horizontal"
+                className=" view list-group list-group-horizontal text-center"
                 style={{ marginLeft: "auto", marginRight: "auto" }}
               >
                 <li className="list-group-item">{item.year}</li>
                 <li className="list-group-item">{item.dept_name}</li>
                 <li className="list-group-item">{item.section}</li>
                 <li className="list-group-item">{item.room_no}</li>
-                <li className="list-group-item">
-                  <button onClick={() => {deleteBatch(item.year,item.section,item.dept_name)}}>delete</button>
+                <li className="list-group-item ">
+                  <img className="delete-icon" src={deleteIcon} onClick={() => {deleteBatch(item.year,item.section,item.dept_name)}}/>
                 </li>
               </ul>
             );

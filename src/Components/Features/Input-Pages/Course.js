@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { course_types } from "../../Data";
-
+import deleteIcon from "../../../delete-logo.png"
+import addIcon from "../../../add-logo.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +11,7 @@ const Course = () => {
   const [course_name, setCourseName] = useState("");
   const [course_short_form, setCourseShortForm] = useState("");
   const [course_type, setCourseType] = useState(""); //dropdown
-  const [preferred_rooms, setPreferred_Rooms] = useState(""); // will be active for only lab
+  const [preferred_rooms, setPreferred_Rooms] = useState(""); 
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [courses, setCourses] = useState([]);
@@ -30,6 +31,11 @@ const Course = () => {
     })
       .then((res) => res.json())
       .then((res) => {
+        setCourseId("")
+        setCourseName("")
+        setCourseShortForm("")
+        setPreferred_Rooms("")
+        setCourseType("")
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       })
@@ -113,44 +119,30 @@ const Course = () => {
               return <option value={item}>{item}</option>;
             })}
           </select>
-          {
-            course_type === course_types[1]
-            ?
-              <>
-                <input
+          <input
                   value={preferred_rooms}
                   onChange={(e) => setPreferred_Rooms(e.target.value)}
                   type="text"
                   className="form-control"
-                  placeholder="Enter Rooms"
+                  placeholder="Enter Room No"
+                  disabled = {course_type !== course_types[1]}
                 />
-              </>
-            :
-              null
-          }
-          <button
-            onClick={() => {
-              addProf();
-            }}
-            className="btn btn-md btn-info"
-          >
-            Add
-          </button>
+          <img src={addIcon} onClick={() => { addProf(); }} className="add-icon"/>
         </div>
       </form>
       <div className="data-list">
         <div
           className="top-header"
-          style={{ height: "auto", overflowY: "scroll", overflowX: "hidden" }}
         >
           <ul
-            className=" view list-group list-group-horizontal"
+            className=" view list-group list-group-horizontal text-center"
             style={{ marginLeft: "auto", marginRight: "auto" }}
           >
             <li className="list-group-item">Course Id</li>
             <li className="list-group-item">Course Name</li>
             <li className="list-group-item">Course Short Form</li>
             <li className="list-group-item">Course Type</li>
+            <li className="list-group-item">Room No</li>
             <li className="list-group-item">Course Delete</li>
           </ul>
         </div>
@@ -166,15 +158,16 @@ const Course = () => {
           {courses.map((item) => {
             return (
               <ul
-                className=" view list-group list-group-horizontal"
+                className=" view list-group list-group-horizontal text-center"
                 style={{ marginLeft: "auto", marginRight: "auto" }}
               >
                 <li className="list-group-item">{item.course_id}</li>
                 <li className="list-group-item">{item.course_name}</li>
                 <li className="list-group-item">{item.course_short_form}</li>
                 <li className="list-group-item">{item.course_type}</li>
+                <li className="list-group-item">{(item.preferred_rooms === "" || item.preferred_rooms === null || item.preferred_rooms === undefined )? "-" : item.preferred_rooms }</li>
                 <li className="list-group-item">
-                  <button onClick={() => {deleteProf(item.course_id,item.course_type)}}>delete</button>
+                  <img className="delete-icon" src={deleteIcon} onClick={() => {deleteProf(item.course_id,item.course_type)}}/>
                 </li>
               </ul>
             );

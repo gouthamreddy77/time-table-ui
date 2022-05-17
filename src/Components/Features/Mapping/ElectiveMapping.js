@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { elective_types } from "../../Data";
+import deleteIcon from "../../../delete-logo.png"
+import addIcon from "../../../add-logo.png"
 
 const ElectiveMapping = (props) => {
   const [course, setCourse] = useState("");
@@ -127,7 +129,7 @@ const ElectiveMapping = (props) => {
             value={course}
             onChange={(e) => setCourse(e.target.value)}
           >
-            <option value={0}>Select Course</option>
+            <option value={0}>Select Elective</option>
             {courseList.map((item) => {
               return <option value={item.course_name}>{item.course_name}</option>;
             })}
@@ -137,7 +139,7 @@ const ElectiveMapping = (props) => {
             value={electiveType}
             onChange={(e) => setElectiveType(e.target.value)}
           >
-            <option value={0}>Select Course Type</option>
+            <option value={0}>Select Elective Type</option>
             {elective_types.map((item) => {
               console.log(item)
               return <option value={item}>{item}</option>;
@@ -153,26 +155,15 @@ const ElectiveMapping = (props) => {
               return <option value={item.professor_name}>{item.professor_name}</option>;
             })}
           </select>
-          <button
-            onClick={(e) => submitHandler(e)}
-            style={{ width: "80px", height: "40px", padding: "5px" }}
-            className="add-button btn  btn-success"
-          >
-            Add
-          </button>
+          <img src={addIcon} onClick={(e) => submitHandler(e)} className="add-icon"/>
         </div>
       </form>
       <div className="data-list">
         <div
           className="top-header"
-          style={{
-            height: "auto",
-            overflowY: "scroll",
-            overflowX: "hidden",
-          }}
         >
           <ul
-            className=" view list-group list-group-horizontal"
+            className=" view list-group list-group-horizontal text-center"
             style={{ marginLeft: "auto", marginRight: "auto" }}
           >
             <li className="list-group-item">Course</li>
@@ -193,7 +184,7 @@ const ElectiveMapping = (props) => {
           {electives.map((item) => {
             return (
               <ul
-                className=" view list-group list-group-horizontal"
+                className=" view list-group list-group-horizontal text-center"
                 style={{ marginLeft: "auto", marginRight: "auto" }}
               >
                 <li className="list-group-item">{getCourseName(item.course_id)}</li>
@@ -201,7 +192,7 @@ const ElectiveMapping = (props) => {
                 <li className="list-group-item">{getProfessorName(item.professor_id)}</li>
 
                 <li className="list-group-item">
-                  <button onClick={() => {deleteElectiveMapping(item)}}>delete</button>
+                  <img className="delete-icon" src={deleteIcon} onClick={() => {deleteElectiveMapping(item)}}/>
                 </li>
               </ul>
             );
