@@ -90,9 +90,9 @@ const Lecturers = () => {
 
   return (
     <div>
-      <h1 className="appTitle text-center">Add Professors</h1>
+      <h3 className="appTitle text-center">Add Professors</h3>
       <form>
-        <div className="lecturer">
+        <div className="batches">
           <input
             value={prof_id}
             onChange={(e) => setProfId(e.target.value)}

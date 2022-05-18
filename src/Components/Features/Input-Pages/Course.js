@@ -85,7 +85,7 @@ const Course = () => {
 
   return (
     <div>
-      <h1 className="appTitle text-center">Add Courses</h1>
+      <h3 className="appTitle text-center">Add Courses</h3>
       <form>
         <div className="batches">
           <input

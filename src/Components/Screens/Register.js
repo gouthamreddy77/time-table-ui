@@ -28,7 +28,7 @@ const Register = () => {
             </div>
           </div>
 
-          <div className="col-sm-12 col-md-6 col-lg-4  d-flex flex-column justify-content-around p-5   shadow text-white " style={{ "backgroundColor": "#23395b", "borderRadius": "29px", "marginBottom": "2%" }}>
+          <div className="col-sm-12 col-md-6 col-lg-4  d-flex flex-column justify-content-around p-5   shadow text-black login" style={{"borderRadius": "29px", "marginBottom": "2%" }}>
 
             <h3 style={{ "textAlign": "center" }}>Create New Account</h3>
             <label>User Name:</label>
@@ -39,8 +39,8 @@ const Register = () => {
             <input type="text" value={password} onChange={(e) => setpassword(e.target.value)}></input>
             <label>Verify Password:</label>
             <input type="text" value={passwordVerify} onChange={(e) => setpasswordVerify(e.target.value)}></input>
-            <button className="btn btn-primary mt-3" onClick={submit}>Register</button>
-            <Link to='/login'>Have an account?Log in</Link>
+            <button className="btn btn-primary mt-3" onClick={submit} style={{backgroundColor:"#23395b"}}>Register</button>
+            <Link to='/login' style={{color:"#23395b"}}>Have an account?Log in</Link>
 
           </div>
           <div className="col-sm-12">

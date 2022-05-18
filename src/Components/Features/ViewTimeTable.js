@@ -29,7 +29,7 @@ const ViewTimeTable = () => {
 
     return (
         <>
-            <div className='text-center fs-2 fw-bold ' style={{"color":"purple"}}>Time Tables</div>
+            <div className='text-center fs-2 fw-bold mt-3' style={{"color":"purple"}}>Time Tables</div>
             {
                 Loading === true 
                 ?

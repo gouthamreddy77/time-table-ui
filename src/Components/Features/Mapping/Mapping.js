@@ -6,9 +6,9 @@ import LectureMapping from './LectureMapping'
 const Mapping = () => {
   return (
     <>
-    <div className='row g-0'>
+    <div className='row g-0 mt-3 fw-bold'>
       <div className='col-5'>
-      <ul class="nav nav-tabs mt-2 border-bottom " id="myTab" role="tablist">
+      <ul class="nav nav-tabs mt-4 border-bottom " id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="Lectures-tab" data-bs-toggle="tab" href="#Lectures" role="tab" aria-controls="Lectures" aria-selected="true">Lectures  </a>
         </li> 
@@ -20,7 +20,7 @@ const Mapping = () => {
         </li>
       </ul>
       </div>
-      <div className='col-7  border-bottom fw-bold fs-2' style={{'color':'purple'}}>
+      <div className='col-7  border-bottom fw-bold fs-3' style={{'color':'#23395b'}}>
         Mapping
       </div>
     </div>

@@ -14,7 +14,6 @@ const Navbar = () => {
                     >
                         <div className="menu"></div>
                         <div className="menu"></div>
-                        <div className="menu"></div>
                     </span>
 
                     <div className="offcanvas offcanvas-start w-25" tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">

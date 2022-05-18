@@ -28,7 +28,7 @@ const Login = () => {
                             </div>
                         </div>
 
-                        <div className="col-sm-12 col-md-6 col-lg-4  d-flex flex-column justify-content-around p-5  shadow text-white " style={{ "backgroundColor": "#23395b", "borderRadius": "29px", "marginBottom": "2%" }}>
+                        <div className="col-sm-12 col-md-6 col-lg-4  d-flex flex-column justify-content-around p-5  shadow text-black login" style={{  "borderRadius": "29px", "marginBottom": "2%" }}>
 
                             <h3 style={{ "textAlign": "center" }}>Login to your Account</h3>
                             <label>User Name:</label>
@@ -37,8 +37,8 @@ const Login = () => {
                             <input type="email" value={email} onChange={(e) => setemail(e.target.value)}></input>
                             <label>Password:</label>
                             <input type="password" value={password} onChange={(e) => setpassword(e.target.value)}></input>
-                            <button className="btn btn-primary mt-3" onClick={login}>Login</button>
-                            <Link to="/">New Here? Register</Link>
+                            <button className="btn mt-3 text-white" onClick={login} style={{backgroundColor:"#23395b"}}>Login</button>
+                            <Link to="/" style={{color:"#23395b"}}>New Here? Register</Link>
 
                         </div>
                         <div className="col-sm-12">
