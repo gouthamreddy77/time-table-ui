@@ -175,9 +175,8 @@ const ElectiveMapping = (props) => {
         <div
           className="bottom"
           style={{
-            height: "220px",
-            overflowY: "scroll",
-            overflowX: "hidden",
+            maxHeight: "253px",
+            overflow:"auto",
             marginTop: "0px",
           }}
         >

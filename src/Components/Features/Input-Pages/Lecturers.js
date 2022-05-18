@@ -127,9 +127,8 @@ const Lecturers = () => {
         <div
           className="bottom"
           style={{
-            height: "220px",
-            overflowY: "scroll",
-            overflowX: "hidden",
+            maxHeight: "240px",
+            overflow:"auto",
             marginTop: "0px",
           }}
         >

@@ -160,9 +160,8 @@ const Batch = (props) => {
         <div
           className="bottom"
           style={{
-            height: "190px",
-            overflowY: "scroll",
-            overflowX: "hidden",
+            maxHeight: "253px",
+            overflow:"auto"
           }}
         >
           {batches.map((item) => {
