@@ -11,18 +11,12 @@ import {
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Lecturers = () => {
+const Lecturers = (props) => {
   const [prof_id, setProfId] = useState("");
   const [prof_name, setProfName] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const [professors, setProfessors] = useState([
-    { professor_id: "1", professor_name: "Professor-1"},
-    { professor_id: "2", professor_name: "Professor-2"},
-    { professor_id: "3", professor_name: "Professor-3"},
-    { professor_id: "3", professor_name: "Professor-3"},
-    { professor_id: "3", professor_name: "Professor-3"},
-  ]);
+  const [professors, setProfessors] = useState([props.Lecturers]);
   const addProf = () => {
     if (prof_id == "" || prof_name == "") {
       alert("Enter details ");
@@ -107,7 +101,7 @@ const Lecturers = () => {
             className="form-control"
             placeholder="Enter Professor Name"
           />
-          <img src={addIcon} onClick={() => { addProf(); }} className="add-icon"/>
+          <img src={addIcon} onClick={() => { addProf(); }} className="add-icon" role="add"/>
         </div>
       </form>
       <div className="data-list">
@@ -132,20 +126,23 @@ const Lecturers = () => {
             marginTop: "0px",
           }}
         >
-          {professors.map((item) => {
-            return (
-              <ul
-                className=" view list-group list-group-horizontal text-center"
-                style={{ marginLeft: "auto", marginRight: "auto" }}
-              >
-                <li className="list-group-item">{item.professor_id}</li>
-                <li className="list-group-item">{item.professor_name}</li>
-                <li className="list-group-item">
-                  <img className="delete-icon" src={deleteIcon} onClick={() => {deleteProf(item.professor_id)}}/>
-                </li>
-              </ul>
-            );
-          })}
+          {
+            professors[0] === undefined ? null
+            : professors.map((item) => {
+              return (
+                <ul
+                  className=" view list-group list-group-horizontal text-center"
+                  style={{ marginLeft: "auto", marginRight: "auto" }}
+                >
+                  <li className="list-group-item">{item.professor_id}</li>
+                  <li className="list-group-item">{item.professor_name}</li>
+                  <li className="list-group-item">
+                    <img className="delete-icon" src={deleteIcon} onClick={() => {deleteProf(item.professor_id)}} role="delete"/>
+                  </li>
+                </ul>
+              );
+            })
+          }
         </div>
       </div>
     </div>

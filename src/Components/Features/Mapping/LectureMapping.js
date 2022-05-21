@@ -175,7 +175,7 @@ const LectureMapping = (props) => {
               return <option value={item.professor_name}>{item.professor_name}</option>;
             })}
           </select>
-          <img src={addIcon} onClick={(e) => submitHandler(e)} className="add-icon"/>
+          <img src={addIcon} onClick={(e) => submitHandler(e)} className="add-icon" role="add"/>
         </div>
       </form>
       <div className="data-list">

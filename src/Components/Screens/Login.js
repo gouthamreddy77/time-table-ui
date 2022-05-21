@@ -10,7 +10,7 @@ const Login = () => {
 
     const login = () => {
         console.log(username, email, password);
-        navigate('/home')
+        navigate('/home/dashboard')
     }
 
     return (
@@ -37,7 +37,7 @@ const Login = () => {
                             <input type="email" value={email} onChange={(e) => setemail(e.target.value)}></input>
                             <label>Password:</label>
                             <input type="password" value={password} onChange={(e) => setpassword(e.target.value)}></input>
-                            <button className="btn mt-3 text-white" onClick={login} style={{backgroundColor:"#23395b"}}>Login</button>
+                            <button className="btn mt-3 text-white" onClick={login} style={{backgroundColor:"#23395b"}} role="login">Login</button>
                             <Link to="/" style={{color:"#23395b"}}>New Here? Register</Link>
 
                         </div>

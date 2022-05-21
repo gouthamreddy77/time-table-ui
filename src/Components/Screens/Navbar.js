@@ -10,7 +10,7 @@ const Navbar = () => {
             <nav className="navbar sticky-top navbar-expand-sm " style={{ "boxShadow": "0 1px 9px #000" }}>
                 <div className="container-fluid">
                     <span className="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" style={{ "backgroundColor": "#23395b" }}
-
+                        role="sidemenu"
                     >
                         <div className="menu"></div>
                         <div className="menu"></div>
@@ -61,14 +61,14 @@ const Navbar = () => {
                             </ul>
                         </div>
                     </div>
-                    <Link className="navbar-brand text-white fs-4" to="/Home"><strong>Time Table </strong>App</Link>
+                    <Link className="navbar-brand text-white fs-4" to="/home/dashboard"><strong>Time Table </strong>App</Link>
 
 
                     <div className="" id="navbarCollapse">
                         <ul className="navbar-nav ms-auto ">
                             <li className="nav-item dropdown ">
                                 <a className="nav-link  text-white" href="/" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" className="bi bi-person-circle mb-1" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" className="bi bi-person-circle mb-1" viewBox="0 0 16 16" role="usericon">
                                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                                         <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                                     </svg>

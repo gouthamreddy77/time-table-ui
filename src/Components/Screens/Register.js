@@ -11,7 +11,7 @@ const Register = () => {
 
   const submit = () => {
     console.log(username, email, password);
-    navigate('/home')
+    navigate('/home/dashboard')
   }
 
   return (
@@ -39,7 +39,7 @@ const Register = () => {
             <input type="text" value={password} onChange={(e) => setpassword(e.target.value)}></input>
             <label>Verify Password:</label>
             <input type="text" value={passwordVerify} onChange={(e) => setpasswordVerify(e.target.value)}></input>
-            <button className="btn btn-primary mt-3" onClick={submit} style={{backgroundColor:"#23395b"}}>Register</button>
+            <button className="btn btn-primary mt-3" onClick={submit} style={{backgroundColor:"#23395b"}} role="register">Register</button>
             <Link to='/login' style={{color:"#23395b"}}>Have an account?Log in</Link>
 
           </div>

@@ -10,7 +10,7 @@ const Batch = (props) => {
   const [batch_room, setBatchRoom] = useState("");
 
   const [refreshKey, setRefreshKey] = useState(0);
-  const [batches, setBatches] = useState([]);
+  const [batches, setBatches] = useState([props.batch]);
   const [Department,setDepartments] = useState([])
   const [Rooms,setRooms] = useState([])
 
@@ -106,8 +106,8 @@ const Batch = (props) => {
             onChange={(e) => setBatchYear(e.target.value)}
           >
             <option value={0}>Select Year</option>
-            {year.map((item) => {
-              return <option value={item}>{item}</option>;
+            {year.map((item,i) => {
+              return <option value={item} key={i}>{item}</option>;
             })}
           </select>
           <select
@@ -116,8 +116,8 @@ const Batch = (props) => {
             onChange={(e) => setBatchDept(e.target.value)}
           >
             <option value={0}>Select Department</option>
-            {Department.map((item) => {
-              return <option value={item.dept_name}>{item.dept_name}</option>;
+            {Department.map((item,i) => {
+              return <option value={item.dept_name} key={i}>{item.dept_name}</option>;
             })}
           </select>
           <select
@@ -126,8 +126,8 @@ const Batch = (props) => {
             onChange={(e) => setBatchSection(e.target.value)}
           >
             <option value={0}>Select Section</option>
-            {section.map((item) => {
-              return <option value={item}>{item}</option>;
+            {section.map((item,i) => {
+              return <option value={item} key={i}>{item}</option>;
             })}
           </select>
           <select
@@ -136,11 +136,11 @@ const Batch = (props) => {
             onChange={(e) => setBatchRoom(e.target.value)}
           >
             <option value={0}>Select a Room</option>
-            {Rooms.map((item) => {
-              return <option value={item.room_no}>{item.room_no}</option>;
+            {Rooms.map((item,i) => {
+              return <option value={item.room_no} key={i}>{item.room_no}</option>;
             })}
           </select>
-          <img className="add-icon" src={addIcon} onClick={(e) => submitHandler(e)}/>
+          <img className="add-icon" src={addIcon} onClick={(e) => submitHandler(e)} role="add"/>
         </div>
       </form>
       <div className="data-list">
@@ -164,22 +164,25 @@ const Batch = (props) => {
             overflow:"auto"
           }}
         >
-          {batches.map((item) => {
-            return (
-              <ul
-                className=" view list-group list-group-horizontal text-center"
-                style={{ marginLeft: "auto", marginRight: "auto" }}
-              >
-                <li className="list-group-item">{item.year}</li>
-                <li className="list-group-item">{item.dept_name}</li>
-                <li className="list-group-item">{item.section}</li>
-                <li className="list-group-item">{item.room_no}</li>
-                <li className="list-group-item ">
-                  <img className="delete-icon" src={deleteIcon} onClick={() => {deleteBatch(item.year,item.section,item.dept_name)}}/>
-                </li>
-              </ul>
-            );
-          })}
+          {
+            batches[0] === undefined ? null :
+            batches.map((item) => {
+              return (
+                <ul
+                  className=" view list-group list-group-horizontal text-center"
+                  style={{ marginLeft: "auto", marginRight: "auto" }}
+                >
+                  <li className="list-group-item">{item.year}</li>
+                  <li className="list-group-item">{item.dept_name}</li>
+                  <li className="list-group-item">{item.section}</li>
+                  <li className="list-group-item">{item.room_no}</li>
+                  <li className="list-group-item ">
+                    <img className="delete-icon" src={deleteIcon} onClick={() => {deleteBatch(item.year,item.section,item.dept_name)}} role="delete"/>
+                  </li>
+                </ul>
+              );
+            })
+          }
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
-const Course = () => {
+const Course = (props) => {
   const [course_id, setCourseId] = useState("");
   const [course_name, setCourseName] = useState("");
   const [course_short_form, setCourseShortForm] = useState("");
@@ -14,7 +14,7 @@ const Course = () => {
   const [preferred_rooms, setPreferred_Rooms] = useState(""); 
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState([props.course]);
   const addProf = () => {
     fetch("/add_course", {
       method: "post",
@@ -113,10 +113,11 @@ const Course = () => {
             className=" form-select-md select-style "
             value={course_type}
             onChange={(e) => setCourseType(e.target.value)}
+            data-testid="courseType"
           >
-            <option value={0}>Select CourseType</option>
-            {course_types.map((item) => {
-              return <option value={item}>{item}</option>;
+            <option value={0}>Select Course Type</option>
+            {course_types.map((item,i) => {
+              return <option value={item} key={i}>{item}</option>;
             })}
           </select>
           <input
@@ -126,8 +127,9 @@ const Course = () => {
                   className="form-control"
                   placeholder="Enter Room No"
                   disabled = {course_type !== course_types[1]}
+                data-testid="room-no"
                 />
-          <img src={addIcon} onClick={() => { addProf(); }} className="add-icon"/>
+          <img src={addIcon} onClick={() => { addProf(); }} className="add-icon" role="add"/>
         </div>
       </form>
       <div className="data-list">
@@ -154,23 +156,26 @@ const Course = () => {
             marginTop: "0px",
           }}
         >
-          {courses.map((item) => {
-            return (
-              <ul
-                className=" view list-group list-group-horizontal text-center"
-                style={{ marginLeft: "auto", marginRight: "auto" }}
-              >
-                <li className="list-group-item">{item.course_id}</li>
-                <li className="list-group-item">{item.course_name}</li>
-                <li className="list-group-item">{item.course_short_form}</li>
-                <li className="list-group-item">{item.course_type}</li>
-                <li className="list-group-item">{(item.preferred_rooms === "" || item.preferred_rooms === null || item.preferred_rooms === undefined )? "-" : item.preferred_rooms }</li>
-                <li className="list-group-item">
-                  <img className="delete-icon" src={deleteIcon} onClick={() => {deleteProf(item.course_id,item.course_type)}}/>
-                </li>
-              </ul>
-            );
-          })}
+          {
+            courses[0]=== undefined ? null :
+            courses.map((item) => {
+              return (
+                <ul
+                  className=" view list-group list-group-horizontal text-center"
+                  style={{ marginLeft: "auto", marginRight: "auto" }}
+                >
+                  <li className="list-group-item">{item.course_id}</li>
+                  <li className="list-group-item">{item.course_name}</li>
+                  <li className="list-group-item">{item.course_short_form}</li>
+                  <li className="list-group-item">{item.course_type}</li>
+                  <li className="list-group-item">{(item.preferred_rooms === "" || item.preferred_rooms === null || item.preferred_rooms === undefined )? "-" : item.preferred_rooms }</li>
+                  <li className="list-group-item">
+                    <img className="delete-icon" src={deleteIcon} onClick={() => {deleteProf(item.course_id,item.course_type)}} role="delete"/>
+                  </li>
+                </ul>
+              );
+            })
+          }
         </div>
       </div>
     </div>

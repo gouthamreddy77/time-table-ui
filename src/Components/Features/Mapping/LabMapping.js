@@ -8,9 +8,9 @@ const LabMapping = (props) => {
   const [batch, setBatch] = useState("");
   const [pairable, setPairable] = useState("");
 
-  const [courseList, setCoursesList] = useState(["HDH", "jfjf"]);
-  const [professorList, setProfessorList] = useState(["HDH", "jfjf"]);
-  const [batchList, setBatchList] = useState(["HDH", "jfjf"]);
+  const [courseList, setCoursesList] = useState([]);
+  const [professorList, setProfessorList] = useState([]);
+  const [batchList, setBatchList] = useState([]);
   const [refreshKey,setRefreshKey] = useState(0)
   const [labs, setlabs] = useState([]);
   useEffect(() => {
@@ -186,7 +186,7 @@ const LabMapping = (props) => {
             <option value={1}>Yes</option>
             <option value={0}>No</option>
           </select>
-          <img src={addIcon} onClick={(e) => submitHandler(e)} className="add-icon"/>
+          <img src={addIcon} onClick={(e) => submitHandler(e)} className="add-icon" role="add"/>
         </div>
       </form>
       <div className="data-list">
