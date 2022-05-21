@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import deleteIcon from "../../../delete-logo.png"
 import addIcon from "../../../add-logo.png"
+import {  ToastContainer, toast } from 'react-toastify';
+
 
 const LabMapping = (props) => {
   const [course, setCourse] = useState("");
@@ -63,6 +65,10 @@ const LabMapping = (props) => {
   }, [refreshKey]);
 
   const submitHandler = (e) => {
+    if(batch === "" || course === "" || professor === "" || pairable === ""){
+      toast.warn("Fields Should Not be Empty")
+      return
+    }
     e.preventDefault();
     fetch("/add_mapping", {
       method: "post",
@@ -82,6 +88,15 @@ const LabMapping = (props) => {
         setCourse("")
         setProfessor("")
         setPairable("")
+        if(res.status === "SUCCESS"){
+          toast.success("Added Successfully")
+        }
+        else if(res.status === "FAILURE"){
+          toast.warn(res.message)
+        }
+        else{
+          throw new Error("Error happend")
+        }
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       });
@@ -101,6 +116,15 @@ const LabMapping = (props) => {
     })
       .then((res) => res.json())
       .then((res) => {
+        if(res.status === "SUCCESS"){
+          toast.success("Deleted Successfully")
+        }
+        else if(res.status === "FAILURE"){
+          toast.warn(res.message)
+        }
+        else{
+          throw new Error("Error happend")
+        }
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       })
@@ -151,7 +175,7 @@ const LabMapping = (props) => {
             value={batch}
             onChange={(e) => setBatch(e.target.value)}
           >
-            <option value={0}>Select Batch</option>
+            <option value={""}>Select Batch</option>
             {batchList.map((item) => {
               return <option value={item.year+" "+item.dept_name+" "+item.section}>{item.year+" "+item.dept_name+" "+item.section}</option>;
             })}
@@ -161,7 +185,7 @@ const LabMapping = (props) => {
             value={course}
             onChange={(e) => setCourse(e.target.value)}
           >
-            <option value={0}>Select Lab</option>
+            <option value={""}>Select Lab</option>
             {courseList.map((item) => {
               return <option value={item.course_name}>{item.course_name}</option>;
             })}
@@ -171,7 +195,7 @@ const LabMapping = (props) => {
             value={professor}
             onChange={(e) => setProfessor(e.target.value)}
           >
-            <option value={0}>Select Professor</option>
+            <option value={""}>Select Professor</option>
             {professorList.map((item) => {
               return <option value={item.professor_name}>{item.professor_name}</option>;
             })}

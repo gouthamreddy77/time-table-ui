@@ -2,6 +2,8 @@ import React, { useState,useEffect } from "react";
 import { year, section } from "../../Data";
 import deleteIcon from "../../../delete-logo.png"
 import addIcon from "../../../add-logo.png"
+import {  ToastContainer, toast } from 'react-toastify';
+
 
 const Batch = (props) => {
   const [batch_year, setBatchYear] = useState("");
@@ -28,28 +30,26 @@ const Batch = (props) => {
         })
           .then((res) => res.json())
           .then((res) => {
+            if(res.status === "SUCCESS"){
+              toast.success("Deleted Successfully")
+            }
+            else if(res.status === "FAILURE"){
+              toast.warn(res.message)
+            }
+            else{
+              throw new Error("Error happend")
+            }
             if (refreshKey == 0) setRefreshKey(1);
             else setRefreshKey(0);
           })
           .catch((err) => {
-            console.log(err);
+            toast.err(err)
           });
   };
 
-  //   getting the batches list
 
-    useEffect( () => {
-      fetch("/view_batch")
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res.data);
-          setBatches(res.data);
-        })
-        .catch((err) => {
-          console.log("error in retreiving batches");
-        });
-
-        fetch("/view_departments")
+    useEffect(()=>{
+      fetch("/view_departments")
         .then((res) => res.json())
         .then((res) => {
           console.log(res.data);
@@ -68,11 +68,31 @@ const Batch = (props) => {
         .catch((err) => {
           console.log("error in retreiving batches");
         });
+    },[])
+
+    useEffect( () => {
+      fetch("/view_batch")
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.data);
+          setBatches(res.data);
+        })
+        .catch((err) => {
+          console.log("error in retreiving batches");
+        });
     }, [refreshKey]);
 
+    const validate = ()=>{
+      if(batch_year === "" || batch_dept === "" || batch_section === "" || batch_room === "" ){
+        toast.warn("Fields should not be empty",{position:"top-center"})
+        return false
+      }
+      return true
+    }
   const submitHandler = (e) => {
     console.log(batch_year, batch_dept, batch_section, batch_room);
     e.preventDefault();
+    if(!validate()) return
     fetch("/add_batch", {
       method: "post",
       headers: {
@@ -91,12 +111,24 @@ const Batch = (props) => {
           setBatchDept("")
           setBatchSection("")
           setBatchRoom("")
+          if(res.status === "SUCCESS"){
+            toast.success("Added Successfully")
+          }
+          else if(res.status === "FAILURE"){
+            toast.warn(res.message)
+          }
+          else{
+            throw new Error("Error happend")
+          }
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
+      }).catch((err) => {
+        toast.error(err)
       })
   };
   return (
     <div>
+      <ToastContainer newestOnTop={true} autoClose={1600} position="top-center  "/>
       <h3 className="appTitle text-center">Add Batches</h3>
       <form>
         <div className="batches">
@@ -105,7 +137,7 @@ const Batch = (props) => {
             value={batch_year}
             onChange={(e) => setBatchYear(e.target.value)}
           >
-            <option value={0}>Select Year</option>
+            <option value={""}>Select Year</option>
             {year.map((item,i) => {
               return <option value={item} key={i}>{item}</option>;
             })}
@@ -115,7 +147,7 @@ const Batch = (props) => {
             value={batch_dept}
             onChange={(e) => setBatchDept(e.target.value)}
           >
-            <option value={0}>Select Department</option>
+            <option value={""}>Select Department</option>
             {Department.map((item,i) => {
               return <option value={item.dept_name} key={i}>{item.dept_name}</option>;
             })}
@@ -125,7 +157,7 @@ const Batch = (props) => {
             value={batch_section}
             onChange={(e) => setBatchSection(e.target.value)}
           >
-            <option value={0}>Select Section</option>
+            <option value={""}>Select Section</option>
             {section.map((item,i) => {
               return <option value={item} key={i}>{item}</option>;
             })}
@@ -135,7 +167,7 @@ const Batch = (props) => {
             value={batch_room}
             onChange={(e) => setBatchRoom(e.target.value)}
           >
-            <option value={0}>Select a Room</option>
+            <option value={""}>Select a Room</option>
             {Rooms.map((item,i) => {
               return <option value={item.room_no} key={i}>{item.room_no}</option>;
             })}

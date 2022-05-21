@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { elective_types } from "../../Data";
 import deleteIcon from "../../../delete-logo.png"
 import addIcon from "../../../add-logo.png"
+import {  ToastContainer, toast } from 'react-toastify';
+
 
 const ElectiveMapping = (props) => {
   const [course, setCourse] = useState("");
@@ -54,7 +56,10 @@ const ElectiveMapping = (props) => {
   }, [refreshKey]);
 
   const submitHandler = (e) => {
-    console.log(course, professor);
+    if(course === "" || professor === "" || electiveType === ""){
+      toast.warn("Fields Should Not be Empty")
+      return
+    }
     e.preventDefault();
     fetch("/add_mapping", {
       method: "post",
@@ -72,6 +77,15 @@ const ElectiveMapping = (props) => {
         setCourse("")
         setElectiveType("")
         setProfessor("")
+        if(res.status === "SUCCESS"){
+          toast.success("Added Successfully")
+        }
+        else if(res.status === "FAILURE"){
+          toast.warn(res.message)
+        }
+        else{
+          throw new Error("Error happend")
+        }
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       });
@@ -90,6 +104,15 @@ const ElectiveMapping = (props) => {
     })
       .then((res) => res.json())
       .then((res) => {
+        if(res.status === "SUCCESS"){
+          toast.success("Deleted Successfully")
+        }
+        else if(res.status === "FAILURE"){
+          toast.warn(res.message)
+        }
+        else{
+          throw new Error("Error happend")
+        }
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       })
@@ -129,7 +152,7 @@ const ElectiveMapping = (props) => {
             value={course}
             onChange={(e) => setCourse(e.target.value)}
           >
-            <option value={0}>Select Elective</option>
+            <option value={""}>Select Elective</option>
             {courseList.map((item) => {
               return <option value={item.course_name}>{item.course_name}</option>;
             })}
@@ -139,7 +162,7 @@ const ElectiveMapping = (props) => {
             value={electiveType}
             onChange={(e) => setElectiveType(e.target.value)}
           >
-            <option value={0}>Select Elective Type</option>
+            <option value={""}>Select Elective Type</option>
             {elective_types.map((item) => {
               console.log(item)
               return <option value={item}>{item}</option>;
@@ -150,7 +173,7 @@ const ElectiveMapping = (props) => {
             value={professor}
             onChange={(e) => setProfessor(e.target.value)}
           >
-            <option value={0}>Select Professor</option>
+            <option value={""}>Select Professor</option>
             {professorList.map((item) => {
               return <option value={item.professor_name}>{item.professor_name}</option>;
             })}

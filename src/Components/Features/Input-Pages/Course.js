@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { course_types } from "../../Data";
 import deleteIcon from "../../../delete-logo.png"
 import addIcon from "../../../add-logo.png"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {  ToastContainer, toast } from 'react-toastify';
 
 const Course = (props) => {
   const [course_id, setCourseId] = useState("");
@@ -15,7 +13,19 @@ const Course = (props) => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [courses, setCourses] = useState([props.course]);
+  const validate = () => {
+    if(course_id === "" ||
+      course_name === "" ||
+      course_short_form === "" ||
+      course_type === "" ||
+      (course_type === "Lab" && preferred_rooms === "")){
+        toast.warn("Fields Should Not be Empty")
+        return false
+      }
+      return true
+  }
   const addProf = () => {
+    if(!validate()) return
     fetch("/add_course", {
       method: "post",
       headers: {
@@ -36,11 +46,20 @@ const Course = (props) => {
         setCourseShortForm("")
         setPreferred_Rooms("")
         setCourseType("")
+        if(res.status === "SUCCESS"){
+          toast.success("Added Successfully")
+        }
+        else if(res.status === "FAILURE"){
+          toast.warn(res.message)
+        }
+        else{
+          throw new Error("Error happend")
+        }
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err)
       });
   };
 
@@ -58,11 +77,20 @@ const Course = (props) => {
     })
       .then((res) => res.json())
       .then((res) => {
+        if(res.status === "SUCCESS"){
+          toast.success(res.message)
+        }
+        else if(res.status === "FAILURE"){
+          toast.warn(res.message)
+        }
+        else{
+          throw new Error("Error happend")
+        }
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err)
       });
   };
 
@@ -85,6 +113,7 @@ const Course = (props) => {
 
   return (
     <div>
+      <ToastContainer newestOnTop={true} autoClose={1600} position="top-center  "/>
       <h3 className="appTitle text-center">Add Courses</h3>
       <form>
         <div className="batches">
@@ -115,7 +144,7 @@ const Course = (props) => {
             onChange={(e) => setCourseType(e.target.value)}
             data-testid="courseType"
           >
-            <option value={0}>Select Course Type</option>
+            <option value={""}>Select Course Type</option>
             {course_types.map((item,i) => {
               return <option value={item} key={i}>{item}</option>;
             })}

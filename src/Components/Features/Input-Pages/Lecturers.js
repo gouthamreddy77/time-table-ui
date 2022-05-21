@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from "react";
 import deleteIcon from "../../../delete-logo.png"
 import addIcon from "../../../add-logo.png"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import {
-  faCheck,
-  faTrashAlt,
-  faEdit,
-  faWindowClose,
-  faCheckCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import {  ToastContainer, toast } from 'react-toastify';
+
 
 const Lecturers = (props) => {
   const [prof_id, setProfId] = useState("");
@@ -17,9 +10,11 @@ const Lecturers = (props) => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [professors, setProfessors] = useState([props.Lecturers]);
+
+ 
   const addProf = () => {
     if (prof_id == "" || prof_name == "") {
-      alert("Enter details ");
+      toast.warn("Fields Should Not be Empty")
       return;
     }
     fetch("/add_faculty", {
@@ -36,11 +31,20 @@ const Lecturers = (props) => {
       .then((res) => {
         setProfId("")
         setProfName("")
+        if(res.status === "SUCCESS"){
+          toast.success("Added Successfully")
+        }
+        else if(res.status === "FAILURE"){
+          toast.warn(res.message)
+        }
+        else{
+          throw new Error("Error happend")
+        }
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err)
       });
   };
 
@@ -57,11 +61,20 @@ const Lecturers = (props) => {
     })
       .then((res) => res.json())
       .then((res) => {
+        if(res.status === "SUCCESS"){
+          toast.success(res.message)
+        }
+        else if(res.status === "FAILURE"){
+          toast.warn(res.message)
+        }
+        else{
+          throw new Error("Error happend")
+        }
         if (refreshKey == 0) setRefreshKey(1);
         else setRefreshKey(0);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err)
       });
   };
 
@@ -84,6 +97,7 @@ const Lecturers = (props) => {
 
   return (
     <div>
+      <ToastContainer newestOnTop={true} autoClose={1600} position="top-center  "/>
       <h3 className="appTitle text-center">Add Professors</h3>
       <form>
         <div className="batches">

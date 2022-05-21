@@ -1,4 +1,5 @@
 import React from 'react'
+import { ToastContainer } from 'react-toastify'
 import ElectiveMapping from './ElectiveMapping'
 import LabMapping, { MappingLab } from './LabMapping'
 import LectureMapping from './LectureMapping'
@@ -29,6 +30,7 @@ const Mapping = () => {
       <div class="tab-pane fade" id="Labs" role="tabpanel" aria-labelledby="Labs-tab"><LabMapping/></div>
       <div class="tab-pane fade" id="Elective" role="tabpanel" aria-labelledby="Elective-tab"><ElectiveMapping/></div>
     </div>
+    <ToastContainer newestOnTop={true} autoClose={1600} position="top-center  "/>
     </>
   )
 }
