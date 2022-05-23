@@ -35,7 +35,7 @@ const Course = (props) => {
         course_id,
         course_name,
         course_short_form,
-        course_type,
+        course_type : course_type.toLowerCase(),
         preferred_rooms,
       }),
     })
@@ -196,7 +196,7 @@ const Course = (props) => {
                   <li className="list-group-item">{item.course_id}</li>
                   <li className="list-group-item">{item.course_name}</li>
                   <li className="list-group-item">{item.course_short_form}</li>
-                  <li className="list-group-item">{item.course_type}</li>
+                  <li className="list-group-item">{item.course_type.charAt(0).toUpperCase() + item.course_type.substring(1)}</li>
                   <li className="list-group-item">{(item.preferred_rooms === "" || item.preferred_rooms === null || item.preferred_rooms === undefined )? "-" : item.preferred_rooms }</li>
                   <li className="list-group-item">
                     <img className="delete-icon" src={deleteIcon} onClick={() => {deleteProf(item.course_id,item.course_type)}} role="delete"/>
