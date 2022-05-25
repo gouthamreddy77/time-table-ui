@@ -10,6 +10,7 @@ const Course = (props) => {
   const [course_short_form, setCourseShortForm] = useState("");
   const [course_type, setCourseType] = useState(""); //dropdown
   const [preferred_rooms, setPreferred_Rooms] = useState(""); 
+  const [rooms, setRooms] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [courses, setCourses] = useState([props.course]);
@@ -109,6 +110,15 @@ const Course = (props) => {
       .catch((err) => {
         console.log("error while recieving courses");
       });
+
+      fetch("/view_rooms")
+        .then((res) => res.json())
+        .then((res) => {
+          setRooms(res.data);
+        })
+        .catch((err) => {
+          console.log("error in retreiving batches");
+        });
   }, [refreshKey]);
 
   return (
@@ -149,7 +159,19 @@ const Course = (props) => {
               return <option value={item} key={i}>{item}</option>;
             })}
           </select>
-          <input
+          <select
+            className=" form-select-md select-style "
+            value={preferred_rooms}
+            onChange={(e) => setPreferred_Rooms(e.target.value)}
+            disabled = {course_type !== course_types[1]}
+            data-testid="room-no"
+          >
+            <option value={""}>Select Room No</option>
+            {rooms.map((item,i) => {
+              return <option value={item.room_no} key={i}>{item.room_no}</option>;
+            })}
+          </select>
+          {/* <input
                   value={preferred_rooms}
                   onChange={(e) => setPreferred_Rooms(e.target.value)}
                   type="text"
@@ -157,7 +179,7 @@ const Course = (props) => {
                   placeholder="Enter Room No"
                   disabled = {course_type !== course_types[1]}
                 data-testid="room-no"
-                />
+                /> */}
           <img src={addIcon} onClick={() => { addProf(); }} className="add-icon" role="add"/>
         </div>
       </form>
