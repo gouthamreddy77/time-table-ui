@@ -198,11 +198,12 @@ const Batch = (props) => {
         >
           {
             batches[0] === undefined ? null :
-            batches.map((item) => {
+            batches.map((item,i) => {
               return (
                 <ul
                   className=" view list-group list-group-horizontal text-center"
                   style={{ marginLeft: "auto", marginRight: "auto" }}
+                  key={i}
                 >
                   <li className="list-group-item">{item.year}</li>
                   <li className="list-group-item">{item.dept_name}</li>

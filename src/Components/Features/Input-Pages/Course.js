@@ -209,11 +209,12 @@ const Course = (props) => {
         >
           {
             courses[0]=== undefined ? null :
-            courses.map((item) => {
+            courses.map((item,i) => {
               return (
                 <ul
                   className=" view list-group list-group-horizontal text-center"
                   style={{ marginLeft: "auto", marginRight: "auto" }}
+                  key={i}
                 >
                   <li className="list-group-item">{item.course_id}</li>
                   <li className="list-group-item">{item.course_name}</li>

@@ -10,7 +10,7 @@ const Register = () => {
   const [passwordVerify, setpasswordVerify] = useState("")
 
   const submit = () => {
-    console.log(username, email, password);
+    // console.log(username, email, password);
     navigate('/home/dashboard')
   }
 

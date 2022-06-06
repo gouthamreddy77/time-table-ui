@@ -142,11 +142,12 @@ const Lecturers = (props) => {
         >
           {
             professors[0] === undefined ? null
-            : professors.map((item) => {
+            : professors.map((item,i) => {
               return (
                 <ul
                   className=" view list-group list-group-horizontal text-center"
                   style={{ marginLeft: "auto", marginRight: "auto" }}
+                  key={i}
                 >
                   <li className="list-group-item">{item.professor_id}</li>
                   <li className="list-group-item">{item.professor_name}</li>

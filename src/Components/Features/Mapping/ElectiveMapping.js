@@ -163,9 +163,9 @@ const ElectiveMapping = (props) => {
             onChange={(e) => setElectiveType(e.target.value)}
           >
             <option value={""}>Select Elective Type</option>
-            {elective_types.map((item) => {
-              console.log(item)
-              return <option value={item}>{item}</option>;
+            {elective_types.map((item,i) => {
+              // console.log(item)
+              return <option value={item} key={i}>{item}</option>;
             })}
           </select>
           <select
